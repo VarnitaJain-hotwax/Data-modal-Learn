@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+
+    <!-- ===== Types (must come first) ===== -->
+    <ProductCategoryType productCategoryTypeId="CATALOG_CATEGORY" description="Catalog category" hasTable="Y"/>
+    <ProductCategoryType productCategoryTypeId="QUICKADD_CATEGORY" description="Quick add category" hasTable="Y"/>
+
+    <ProdCatalogCategoryType prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" description="Browse root for catalog"/>
+    <ProdCatalogCategoryType prodCatalogCategoryTypeId="PCCT_PROMOTIONS" description="Promotions for catalog"/>
+
+    <ProductFeatureType productFeatureTypeId="SIZE" description="Size feature" hasTable="N"/>
+    <ProductFeatureType productFeatureTypeId="COLOR" description="Color feature" hasTable="N"/>
+
+    <ProductFeatureApplType productFeatureApplTypeId="SELECTABLE_FEATURE" description="Selectable feature for product"/>
+
+    <ProductType productTypeId="FINISHED_GOOD" description="Finished good product" isPhysical="Y"/>
+
+    <!-- ===== Catalog & Categories ===== -->
+    <ProdCatalog catalogName="Slipper Catalog" prodCatalogId="SLIPPER_CATALOG"/>
+
+    <ProductCategory productCategoryId="browse_root" categoryName="Browse Root" productCategoryTypeId="CATALOG_CATEGORY"/>
+    <ProductCategory productCategoryId="promotions" categoryName="Promotions category" productCategoryTypeId="CATALOG_CATEGORY"/>
+    <ProductCategory productCategoryId="mens_category" categoryName="Men category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+    <ProductCategory productCategoryId="women_category" categoryName="Women category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+    <ProductCategory productCategoryId="children_category" categoryName="Children category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+    <ProductCategory productCategoryId="MSports" categoryName="Mens Sports category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+    <ProductCategory productCategoryId="MFormal" categoryName="Mens Formal category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+    <ProductCategory productCategoryId="MParty" categoryName="Mens Party category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+    <ProductCategory productCategoryId="WSports" categoryName="Womens Sports category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+    <ProductCategory productCategoryId="WFormal" categoryName="Womens Formal category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+    <ProductCategory productCategoryId="WParty" categoryName="Womens Party category" productCategoryTypeId="QUICKADD_CATEGORY"/>
+
+    <ProdCatalogCategory fromDate="2024-02-28 00:00:00.0" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" prodCatalogId="SLIPPER_CATALOG" productCategoryId="browse_root"/>
+    <ProdCatalogCategory fromDate="2024-02-28 00:00:00.0" prodCatalogCategoryTypeId="PCCT_PROMOTIONS" prodCatalogId="SLIPPER_CATALOG" productCategoryId="promotions"/>
+
+    <!-- ===== Minimal Product Features (shared for test) ===== -->
+    <ProductFeature description="size 7" productFeatureId="size-7" productFeatureTypeId="SIZE"/>
+    <ProductFeature description="size 2" productFeatureId="size-2" productFeatureTypeId="SIZE"/>
+    <ProductFeature description="white color" productFeatureId="color-white" productFeatureTypeId="COLOR"/>
+
+    <!-- ===== One Product per Category (minimal) ===== -->
+    <!-- Mens categories -->
+    <Product productId="MS-1" productTypeId="FINISHED_GOOD" productName="Mens sports sample" internalName="Mens sports sample" isVirtual="Y"/>
+    <Product productId="MF-1" productTypeId="FINISHED_GOOD" productName="Mens formal sample" internalName="Mens formal sample" isVirtual="Y"/>
+    <Product productId="MP-1" productTypeId="FINISHED_GOOD" productName="Mens party sample" internalName="Mens party sample" isVirtual="Y"/>
+
+    <!-- Womens categories -->
+    <Product productId="WS-1" productTypeId="FINISHED_GOOD" productName="Womens sports sample" internalName="Womens sports sample" isVirtual="Y"/>
+    <Product productId="WF-1" productTypeId="FINISHED_GOOD" productName="Womens formal sample" internalName="Womens formal sample" isVirtual="Y"/>
+    <Product productId="WP-1" productTypeId="FINISHED_GOOD" productName="Womens party sample" internalName="Womens party sample" isVirtual="Y"/>
+
+    <!-- Children -->
+    <Product productId="C-1" productTypeId="FINISHED_GOOD" productName="Children sample" internalName="Children sample" isVirtual="Y"/>
+
+    <!-- ===== Feature applications — one size + one color per product (minimal) ===== -->
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="size-7" productId="MS-1"/>
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="color-white" productId="MS-1"/>
+
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="size-7" productId="MF-1"/>
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="color-white" productId="MF-1"/>
+
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="size-7" productId="MP-1"/>
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="color-white" productId="MP-1"/>
+
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="size-7" productId="WS-1"/>
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="color-white" productId="WS-1"/>
+
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="size-7" productId="WF-1"/>
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="color-white" productId="WF-1"/>
+
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="size-7" productId="WP-1"/>
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="color-white" productId="WP-1"/>
+
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="size-2" productId="C-1"/>
+    <ProductFeatureAppl fromDate="2024-02-29 20:29:41.0" productFeatureApplTypeId="SELECTABLE_FEATURE" productFeatureId="color-white" productId="C-1"/>
+
+    <!-- ===== Minimal ProductCategoryMember (one product inside each leaf category) ===== -->
+    <ProductCategoryMember fromDate="2024-02-29 20:29:41.0" productCategoryId="MSports" productId="MS-1"/>
+    <ProductCategoryMember fromDate="2024-02-29 20:29:41.0" productCategoryId="MFormal" productId="MF-1"/>
+    <ProductCategoryMember fromDate="2024-02-29 20:29:41.0" productCategoryId="MParty" productId="MP-1"/>
+    <ProductCategoryMember fromDate="2024-02-29 20:29:41.0" productCategoryId="WSports" productId="WS-1"/>
+    <ProductCategoryMember fromDate="2024-02-29 20:29:41.0" productCategoryId="WFormal" productId="WF-1"/>
+    <ProductCategoryMember fromDate="2024-02-29 20:29:41.0" productCategoryId="WParty" productId="WP-1"/>
+    <ProductCategoryMember fromDate="2024-02-29 20:29:41.0" productCategoryId="children_category" productId="C-1"/>
+
+    <!-- ===== Category rollups (keeps original structure) ===== -->
+    <ProductCategoryRollup fromDate="2024-02-28 00:00:00.0" parentProductCategoryId="browse_root" productCategoryId="mens_category"/>
+    <ProductCategoryRollup fromDate="2024-02-28 00:00:00.0" parentProductCategoryId="browse_root" productCategoryId="women_category"/>
+    <ProductCategoryRollup fromDate="2024-02-28 00:00:00.0" parentProductCategoryId="browse_root" productCategoryId="children_category"/>
+    <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="mens_category" productCategoryId="MSports"/>
+    <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="mens_category" productCategoryId="MFormal"/>
+    <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="mens_category" productCategoryId="MParty"/>
+    <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="women_category" productCategoryId="WSports"/>
+    <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="women_category" productCategoryId="WFormal"/>
+    <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="women_category" productCategoryId="WParty"/>
+
+</entity-engine-xml>
