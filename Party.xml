@@ -1,0 +1,64 @@
+<!--
+ CUSTOMER CREATION – FULLY EXPLAINED VERSION
+
+   In OFBiz / ERP-style systems, a "Customer" is not created directly.
+   Instead, we create several linked entities:
+
+   1) Party → The core identity (person or organization)
+   2) Person → Stores personal data like first/last name, gender, DOB
+   3) PartyRole → Defines how the Party acts (Customer, Supplier, Employee)
+   4) ContactMech → The communication mechanisms (email, phone, address)
+   5) TelecomNumber → Extra details for phone numbers
+   6) PostalAddress → Extra details for physical address
+   7) PartyContactMech → Links the Party to each contact method
+   8) PartyContactMechPurpose → Marks each contact as billing/shipping/primary
+
+-->
+
+<!-- STEP 1: Create the PARTY (Main Identity Record)
+     - partyId uniquely identifies this person across the system.
+     - partyTypeId="PERSON" tells the system this is a human, not a company.
+     - statusId makes the party active/enabled.
+-->
+<Party partyId="VJ-101" partyTypeId='PERSON' statusId='PARTY_ENABLED' description='Customer with certain details' createdDate="7/26/2025 12:00:00 AM" ></Party>
+
+<!-- step 2 create a Person for this party created above -->
+<Person partyId="VJ-101" firstName="Varnita" lastName="Jain" gender="F" ></Person>
+
+<!-- step 3 create a Party Role for this party -->
+<PartyRole partyId="VJ-101" roleTypeId="CUSTOMER" ></PartyRole>
+
+<!-- step 4 customer should have a billing/shipping phone ,billing/shipping address and primary email -->
+<ContactMech contactMechId='VJC-email' contactMechTypeId='EMAIL_ADDRESS' infoString='nirvan.bobde@example.com' ></ContactMech>
+<ContactMech contactMechId='VJC-B_Phone' contactMechTypeId='TELECOM_NUMBER' ></ContactMech>
+<ContactMech contactMechId='VJC-S_Phone' contactMechTypeId='TELECOM_NUMBER' ></ContactMech>
+<ContactMech contactMechId='VJC-B_Address' contactMechTypeId='POSTAL_ADDRESS' ></ContactMech>
+<ContactMech contactMechId='VJC-S_Address' contactMechTypeId='POSTAL_ADDRESS' ></ContactMech>
+
+<!-- Step 5.1 add billing and shipping phone to telecomNumber entity -->
+<TelecomNumber contactMechId='VJC-B_Phone' countryCode="+91" contactNumber='883374499'></TelecomNumber>
+<TelecomNumber contactMechId='VJC-S_Phone' countryCode="+91" contactNumber='228899339'></TelecomNumber>
+
+<!-- Step 5.2 add billing and shipping address to PostalAddress entity -->
+<PostalAddress contactMechId='VJC-B_Address' city='Indore' houseNumber='13/b' address1='vaishali nagar,annapurna road ' postalCode='452001'></PostalAddress>
+<PostalAddress contactMechId='VJC-S_Address' city='Pune' houseNumber='24/a' address1='pune camp area,near mg road ' postalCode='48931'></PostalAddress>
+
+<!-- step 6 Relate the party with its contact -->
+<PartyContactMech partyId='VJ-101' contactMechId='VJC-email' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
+<PartyContactMech partyId='VJ-101' contactMechId='VJC-B_Phone' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
+<PartyContactMech partyId='VJ-101' contactMechId='VJC-S_Phone' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
+<PartyContactMech partyId='VJ-101' contactMechId='VJC-B_Address' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
+<PartyContactMech partyId='VJ-101' contactMechId='VJC-S_Address' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
+
+<!-- step 7 create contact mech purpose party -->
+<ContactMechPurposeType contactMechPurposeTypeId='PRIMARY_EMAIL' description='Primary Email' ></ContactMechPurposeType>
+<ContactMechPurposeType contactMechPurposeTypeId='BILLING_PHONE' description='Billing Phone' ></ContactMechPurposeType>
+<ContactMechPurposeType contactMechPurposeTypeId='SHIPPING_PHONE' description='Shipping Phone' ></ContactMechPurposeType>
+<ContactMechPurposeType contactMechPurposeTypeId='BILLING_ADDRESS' description='Billing Address' ></ContactMechPurposeType>
+<ContactMechPurposeType contactMechPurposeTypeId='SHIPPING_ADDRESS' description='Shipping Address' ></ContactMechPurposeType>
+
+<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-email' contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
+<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-B_Phone' contactMechPurposeTypeId="BILLING_PHONE" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
+<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-S_Phone' contactMechPurposeTypeId="SHIPPING_PHONE" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
+<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-B_Address' contactMechPurposeTypeId="BILLING_ADDRESS" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
+<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-S_Address' contactMechPurposeTypeId="SHIPPING_ADDRESS" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>

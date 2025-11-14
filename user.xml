@@ -1,0 +1,24 @@
+<!-- Party for the user -->
+<Party partyId="VJ-101" partyTypeId="PERSON" />
+
+<!-- Person details -->
+<Person partyId="VJ-101" firstName="Varnita" lastName="Jain" />
+
+<!-- User login mapped to this party -->
+<UserLogin userLoginId="varnita.jain" currentPassword="test@123"
+           enabled="Y" partyId="VJ-101"/>
+
+<!-- Security Groups -->
+<SecurityGroup groupId="vj_group1" description="this is practice security group1" />
+<SecurityGroup groupId="vj_group2" description="this is practice security group2" />
+
+<!-- Group Permissions -->
+<SecurityGroupPermission groupId="vj_group1" permissionId="ACCOUNTING_ADMIN" />
+<SecurityGroupPermission groupId="vj_group2" permissionId="ACCOUNTING_DELETE" />
+<SecurityGroupPermission groupId="vj_group2" permissionId="ACCOUNTING_CREATE" />
+
+<!-- Assign Groups to User -->
+<UserLoginSecurityGroup userLoginId="varnita.jain" groupId="NB_group1"
+                        fromDate="2025-04-10 10:34:38.871" />
+<UserLoginSecurityGroup userLoginId="varnita.jain" groupId="NB_group2"
+                        fromDate="2025-04-10 10:34:38.871" />
