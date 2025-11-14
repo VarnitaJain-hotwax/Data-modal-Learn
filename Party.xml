@@ -37,7 +37,7 @@
 
 <!-- Step 5.1 add billing and shipping phone to telecomNumber entity -->
 <TelecomNumber contactMechId='VJC-B_Phone' countryCode="+91" contactNumber='883374499'></TelecomNumber>
-<TelecomNumber contactMechId='VJC-S_Phone' countryCode="+91" contactNumber='228899339'></TelecomNumber>
+<TelecomNumber contactMechItd='VJC-S_Phone' countryCode="+91" contactNumber='228899339'></TelecomNumber>
 
 <!-- Step 5.2 add billing and shipping address to PostalAddress entity -->
 <PostalAddress contactMechId='VJC-B_Address' city='Indore' houseNumber='13/b' address1='vaishali nagar,annapurna road ' postalCode='452001'></PostalAddress>

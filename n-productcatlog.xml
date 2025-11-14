@@ -1,0 +1,152 @@
+
+<entity-engine-xml>
+
+    <!-- 1) ProductCategoryType entries -->
+    <ProductCategoryType
+        productCategoryTypeId="CATALOG_CATEGORY"
+        description="Catalog category"
+        hasTable="Y"
+    />
+    <ProductCategoryType
+        productCategoryTypeId="QUICKADD_CATEGORY"
+        description="Quick add category"
+        hasTable="Y"
+    />
+
+    <!-- 2) ProdCatalogCategoryType entries -->
+    <ProdCatalogCategoryType
+        prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT"
+        description="Browse root for catalog"
+    />
+    <ProdCatalogCategoryType
+        prodCatalogCategoryTypeId="PCCT_PROMOTIONS"
+        description="Promotions for catalog"
+    />
+
+    <!-- 3) ProdCatalog updated to SLIPPER_CATALOG -->
+    <ProdCatalog
+        catalogName="Slipper Catalog"
+        prodCatalogId="SLIPPER_CATALOG"
+    />
+
+    <!-- 4) Product Categories -->
+    <ProductCategory
+        productCategoryId="browse_root"
+        categoryName="Browse Root"
+        productCategoryTypeId="CATALOG_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="promotions"
+        categoryName="Promotions category"
+        productCategoryTypeId="CATALOG_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="mens_category"
+        categoryName="Men category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="women_category"
+        categoryName="Women category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="children_category"
+        categoryName="Children category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="MSports"
+        categoryName="Mens Sports category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="MFormal"
+        categoryName="Mens Formal category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="MParty"
+        categoryName="Mens Party category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="WSports"
+        categoryName="Womens Sports category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="WFormal"
+        categoryName="Womens Formal category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+    <ProductCategory
+        productCategoryId="WParty"
+        categoryName="Womens Party category"
+        productCategoryTypeId="QUICKADD_CATEGORY"
+    />
+
+    <!-- 5) ProdCatalogCategory updated to SLIPPER_CATALOG -->
+    <ProdCatalogCategory
+        fromDate="2024-02-28 00:00:00.0"
+        prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT"
+        prodCatalogId="SLIPPER_CATALOG"
+        productCategoryId="browse_root"
+    />
+    <ProdCatalogCategory
+        fromDate="2024-02-28 00:00:00.0"
+        prodCatalogCategoryTypeId="PCCT_PROMOTIONS"
+        prodCatalogId="SLIPPER_CATALOG"
+        productCategoryId="promotions"
+    />
+
+    <!-- 6) Category Rollups -->
+    <ProductCategoryRollup
+        fromDate="2024-02-28 00:00:00.0"
+        parentProductCategoryId="browse_root"
+        productCategoryId="mens_category"
+    />
+    <ProductCategoryRollup
+        fromDate="2024-02-28 00:00:00.0"
+        parentProductCategoryId="browse_root"
+        productCategoryId="women_category"
+    />
+    <ProductCategoryRollup
+        fromDate="2024-02-28 00:00:00.0"
+        parentProductCategoryId="browse_root"
+        productCategoryId="children_category"
+    />
+
+    <ProductCategoryRollup
+        fromDate="2024-02-29 00:00:00.0"
+        parentProductCategoryId="mens_category"
+        productCategoryId="MSports"
+    />
+    <ProductCategoryRollup
+        fromDate="2024-02-29 00:00:00.0"
+        parentProductCategoryId="mens_category"
+        productCategoryId="MFormal"
+    />
+    <ProductCategoryRollup
+        fromDate="2024-02-29 00:00:00.0"
+        parentProductCategoryId="mens_category"
+        productCategoryId="MParty"
+    />
+
+    <ProductCategoryRollup
+        fromDate="2024-02-29 00:00:00.0"
+        parentProductCategoryId="women_category"
+        productCategoryId="WSports"
+    />
+    <ProductCategoryRollup
+        fromDate="2024-02-29 00:00:00.0"
+        parentProductCategoryId="women_category"
+        productCategoryId="WFormal"
+    />
+    <ProductCategoryRollup
+        fromDate="2024-02-29 00:00:00.0"
+        parentProductCategoryId="women_category"
+        productCategoryId="WParty"
+    />
+
+</entity-engine-xml>
