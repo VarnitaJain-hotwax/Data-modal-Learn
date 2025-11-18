@@ -92,6 +92,7 @@
     <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="mens_category" productCategoryId="MParty"/>
     <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="women_category" productCategoryId="WSports"/>
     <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="women_category" productCategoryId="WFormal"/>
-    <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="women_category" productCategoryId="WParty"/>
+    <ProductCategoryRollup fromDate="2024-02-29 00:00:00.0" parentProductCategoryId="women_category" productCategoryId="WParty" />
+ 
 
 </entity-engine-xml>

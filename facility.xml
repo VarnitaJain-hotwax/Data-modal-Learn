@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+
+    <!-- === PARTY & USERLOGIN (OWNER) === -->
+    <Party partyId="VJ-101" partyTypeId="PERSON" statusId="PARTY_ENABLED"/>
+    <UserLogin userLoginId="varnita.jain" currentPassword="test@123" enabled="Y" partyId="VJ-101"/>
+
+    <!-- === FACILITY GROUP (fix for PRIMARY_FACILITY_GROUP_ID FK) === -->
+    <FacilityGroup facilityGroupId="FG-01" description="East region primary facility group"/>
+
+    <!-- === PRODUCT STORE (fix for PRODUCT_STORE_ID FK) === -->
+    <ProductStore productStoreId="STORE-1001" storeName="East Region Store 1001"/>
+
+    <!-- === INVENTORY ITEM TYPE (fix for DEFAULT_INVENTORY_ITEM_TYPE_ID FK) === -->
+    <InventoryItemType inventoryItemTypeId="FINISHED_GOOD" description="Finished goods"/>
+
+    <!-- === UOM (fix for DEFAULT_WEIGHT_UOM_ID FK) === -->
+    <Uom uomId="KGS" abbreviation="kg" description="Kilograms"/>
+
+    <!-- === FACILITY TYPES (fix for FACILITY_TYPE_ID FK) === -->
+    <FacilityType facilityTypeId="WAREHOUSE" description="Warehouse"/>
+    <FacilityType facilityTypeId="RETAIL_STORE" description="Retail Store"/>
+
+    <!-- === ENUMERATION FOR FacilityLocation LOCATION_TYPE_ENUM_ID === -->
+    <Enumeration enumId="AISLE" enumTypeId="LocationTypeEnum" description="Aisle location" sequenceNum="10"/>
+    <Enumeration enumId="BIN" enumTypeId="LocationTypeEnum" description="Bin location" sequenceNum="20"/>
+    <Enumeration enumId="SHELF" enumTypeId="LocationTypeEnum" description="Shelf location" sequenceNum="30"/>
+
+    <!-- ===================== FACILITIES ========================= -->
+    
+
+    <Facility
+        facilityId="FAC-BROADWAY"
+        facilityTypeId="WAREHOUSE"
+        ownerPartyId="VJ-101"
+        defaultInventoryItemTypeId="FINISHED_GOOD"
+        facilityName="Broadway Warehouse"
+        primaryFacilityGroupId="FG-01"
+        squareFootage="45000"
+        productStoreId="STORE-1001"
+        defaultDaysToShip="3"
+        openedDate="2024-01-10 00:00:00.0"
+        closedDate=""
+        description="Primary distribution warehouse for east region"
+        defaultWeightUomId="KGS"
+    />
+
+    <Facility
+        facilityId="FAC-BACKUP"
+        facilityTypeId="RETAIL_STORE"
+        ownerPartyId="VJ-101"
+        defaultInventoryItemTypeId="FINISHED_GOOD"
+        facilityName="Backup Retail Outlet"
+        primaryFacilityGroupId="FG-01"
+        squareFootage="6000"
+        productStoreId="STORE-1001"
+        defaultDaysToShip="7"
+        openedDate="2023-06-01 00:00:00.0"
+        closedDate=""
+        description="Secondary retail facility for overflow stock"
+        defaultWeightUomId="KGS"
+    />
+
+    
+    <!-- ================== FACILITY LOCATIONS ==================== -->
+    
+
+    <FacilityLocation
+        facilityId="FAC-BROADWAY"
+        locationSeqId="01"
+        locationTypeEnumId="AISLE"
+        areaId="A1"
+        aisleId="A-01"
+        sectionId="SEC-01"
+        levelId="L1"
+        positionId="P001"
+    />
+
+    <FacilityLocation
+        facilityId="FAC-BROADWAY"
+        locationSeqId="02"
+        locationTypeEnumId="BIN"
+        areaId="A1"
+        aisleId="A-01"
+        sectionId="SEC-01"
+        levelId="L1"
+        positionId="P002"
+    />
+
+    <FacilityLocation
+        facilityId="FAC-BACKUP"
+        locationSeqId="01"
+        locationTypeEnumId="SHELF"
+        areaId="S1"
+        aisleId="S-01"
+        sectionId="SEC-01"
+        levelId="L1"
+        positionId="P100"
+    />
+
+</entity-engine-xml>
