@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+
+  <!-- Masters (add only if missing) -->
+  <Product productId="PURU_VARIANT_PROD1" productTypeId="FINISHED_GOOD" productName="Puru Variant Product 1" internalName="Puru Variant Prod 1" isVirtual="Y"/>
+  <Product productId="PURU_VARIANT_PROD2" productTypeId="FINISHED_GOOD" productName="Puru Variant Product 2" internalName="Puru Variant Prod 2" isVirtual="Y"/>
+
+  <Party partyId="VJ-101" partyTypeId="PERSON" statusId="PARTY_ENABLED"/>
+  <Facility facilityId="FAC-BROADWAY" facilityTypeId="WAREHOUSE" ownerPartyId="VJ-101" defaultInventoryItemTypeId="FINISHED_GOOD" facilityName="Broadway Warehouse" primaryFacilityGroupId="FG-01" productStoreId="STORE-1001" defaultWeightUomId="KGS"/>
+
+  <InventoryItemType inventoryItemTypeId="FINISHED_GOOD" description="Finished goods"/>
+  <FacilityGroup facilityGroupId="FG-01" description="East region primary facility group"/>
+  <ProductStore productStoreId="STORE-1001" storeName="East Region Store 1001"/>
+  <Uom uomId="KGS" abbreviation="kg" description="Kilograms"/>
+
+  <!-- Enumeration type + reasons required by InventoryItemDetail.reasonEnumId -->
+  <EnumerationType enumTypeId="InventoryReasonEnum" description="Inventory reasons"/>
+  <Enumeration enumId="RECEIPT" enumTypeId="InventoryReasonEnum" description="Receipt from supplier" sequenceNum="10"/>
+  <Enumeration enumId="STOCK_TAKE" enumTypeId="InventoryReasonEnum" description="Stock take" sequenceNum="20"/>
+  <Enumeration enumId="ADJUSTMENT" enumTypeId="InventoryReasonEnum" description="Manual adjustment" sequenceNum="30"/>
+
+  <!-- INVENTORYITEM rows -->
+  <InventoryItem
+    inventoryItemId="INV-001"
+    productId="PURU_VARIANT_PROD1"
+    facilityId="FAC-BROADWAY"
+    quantityOnHandTotal="23.000"
+  />
+
+  <InventoryItem
+    inventoryItemId="INV-002"
+    productId="PURU_VARIANT_PROD2"
+    facilityId="FAC-BROADWAY"
+    quantityOnHandTotal="3.000"
+  />
+
+  <!-- INVENTORYITEMDETAIL rows using composite PK: inventoryItemId + inventoryItemDetailSeqId -->
+  <InventoryItemDetail
+    inventoryItemId="INV-001"
+    inventoryItemDetailSeqId="1"
+    quantityOnHandDiff="5.000"
+    inventoryDate="2025-11-18 05:00:00.0"
+    reasonEnumId="RECEIPT"
+  />
+
+  <InventoryItemDetail
+    inventoryItemId="INV-001"
+    inventoryItemDetailSeqId="2"
+    quantityOnHandDiff="-2.000"
+    inventoryDate="2025-11-18 05:15:00.0"
+    reasonEnumId="STOCK_TAKE"
+  />
+
+  <InventoryItemDetail
+    inventoryItemId="INV-002"
+    inventoryItemDetailSeqId="1"
+    quantityOnHandDiff="3.000"
+    inventoryDate="2025-11-18 05:20:00.0"
+    reasonEnumId="RECEIPT"
+  />
+
+</entity-engine-xml>
