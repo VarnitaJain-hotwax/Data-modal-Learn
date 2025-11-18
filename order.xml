@@ -1,0 +1,66 @@
+<entity-engine-xml>
+
+    <!-- 1) Create order header -->
+    <OrderHeader
+        orderId="HWMDEMO1000"
+        orderTypeId="SALES_ORDER"
+        statusId="ORDER_CREATED"
+        createdBy="mark-tailor"
+        orderDate="2024-02-03 00:00:00.0"
+        entryDate="2024-02-04 00:00:00.0"
+    />
+
+    <!-- 2) Order status row -->
+    <OrderStatus
+        orderStatusId="HWMDEMO1000CREATED"
+        orderId="HWMDEMO1000"
+        statusId="ORDER_CREATED"
+        statusUserLogin="mark-tailor"
+    />
+
+    <!-- 3) Order items + item-level statuses -->
+    <OrderItem orderId="HWMDEMO1000" orderItemSeqId="1" productId="PURU_VARIANT_PROD1" statusId="ITEM_CREATED" quantity="23"/>
+    <OrderStatus orderStatusId="HWMDEMO10001CREATED" orderId="HWMDEMO1000" orderItemSeqId="1" statusId="ITEM_CREATED" />
+
+    <OrderItem orderId="HWMDEMO1000" orderItemSeqId="2" productId="PURU_VARIANT_PROD2" statusId="ITEM_CREATED" quantity="3"/>
+    <OrderStatus orderStatusId="HWMDEMO10002CREATED" orderId="HWMDEMO1000" orderItemSeqId="2" statusId="ITEM_CREATED" />
+
+    <!-- 4) Billing and shipping locations (contact mech IDs should exist already) -->
+    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10022" contactMechPurposeTypeId="BILLING_LOCATION"/>
+    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10022" contactMechPurposeTypeId="SHIPPING_LOCATION"/>
+
+    <!-- 5) Order roles (who is billed / who is shipped to) 
+         NOTE: fromDate is required as part of the primary key for OrderRole -->
+    <OrderRole
+        orderId="HWMDEMO1000"
+        roleTypeId="SHIP_TO_CUSTOMER"
+        partyId="MarkCustomer"
+        fromDate="2024-02-04 00:00:00.0"
+    />
+    <OrderRole
+        orderId="HWMDEMO1000"
+        roleTypeId="BILL_TO_CUSTOMER"
+        partyId="MarkCustomer"
+        fromDate="2024-02-04 00:00:00.0"
+    />
+
+    <!-- 6) Other contact mech rows (phone / email) -->
+    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10024" contactMechPurposeTypeId="PHONE_BILLING"/>
+    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10024" contactMechPurposeTypeId="PHONE_SHIPPING"/>
+    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10023" contactMechPurposeTypeId="PRIMARY_EMAIL"/>
+
+    <!-- 7) Create ship group and associate order items to it -->
+    <OrderItemShipGroup orderId="HWMDEMO1000" shipGroupSeqId="1" shipmentMethodTypeId="GROUND" carrierPartyId="UPS" />
+    <OrderItemShipGroupAssoc orderId="HWMDEMO1000" orderItemSeqId="1" shipGroupSeqId="1" quantity="23"/>
+    <OrderItemShipGroupAssoc orderId="HWMDEMO1000" orderItemSeqId="2" shipGroupSeqId="1" quantity="3"/>
+
+    <!-- 8) Payment preference -->
+    <OrderPaymentPreference
+        orderPaymentPreferenceId="PKPAYPREF1000"
+        orderId="HWMDEMO1000"
+        paymentMethodTypeId="CREDIT_CARD"
+        paymentMethodId="10010"
+        statusId="PAYMENT_AUTHORIZED"
+    />
+
+</entity-engine-xml>
