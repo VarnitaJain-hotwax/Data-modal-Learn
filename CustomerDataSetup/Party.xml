@@ -1,64 +1,105 @@
 <!--
- CUSTOMER CREATION – FULLY EXPLAINED VERSION
-
-   In OFBiz / ERP-style systems, a "Customer" is not created directly.
-   Instead, we create several linked entities:
-
-   1) Party → The core identity (person or organization)
-   2) Person → Stores personal data like first/last name, gender, DOB
-   3) PartyRole → Defines how the Party acts (Customer, Supplier, Employee)
-   4) ContactMech → The communication mechanisms (email, phone, address)
-   5) TelecomNumber → Extra details for phone numbers
-   6) PostalAddress → Extra details for physical address
-   7) PartyContactMech → Links the Party to each contact method
-   8) PartyContactMechPurpose → Marks each contact as billing/shipping/primary
-
+  CustomerDataSetup_Complete.xml
+  - Includes all required base data (seed data) for a minimal import environment.
+  - Fixes the truncated end of the previous file.
+  - All IDs use SK-* or a standard OFBiz naming convention.
 -->
 
-<!-- STEP 1: Create the PARTY (Main Identity Record)
-     - partyId uniquely identifies this person across the system.
-     - partyTypeId="PERSON" tells the system this is a human, not a company.
-     - statusId makes the party active/enabled.
--->
-<Party partyId="VJ-101" partyTypeId='PERSON' statusId='PARTY_ENABLED' description='Customer with certain details' createdDate="7/26/2025 12:00:00 AM" ></Party>
 
-<!-- step 2 create a Person for this party created above -->
-<Person partyId="VJ-101" firstName="Varnita" lastName="Jain" gender="F" ></Person>
 
-<!-- step 3 create a Party Role for this party -->
-<PartyRole partyId="VJ-101" roleTypeId="CUSTOMER" ></PartyRole>
+  <!-- ===== BASE DATA (SEED) ENTITIES - Assumed to be missing, so defined here ===== -->
 
-<!-- step 4 customer should have a billing/shipping phone ,billing/shipping address and primary email -->
-<ContactMech contactMechId='VJC-email' contactMechTypeId='EMAIL_ADDRESS' infoString='nirvan.bobde@example.com' ></ContactMech>
-<ContactMech contactMechId='VJC-B_Phone' contactMechTypeId='TELECOM_NUMBER' ></ContactMech>
-<ContactMech contactMechId='VJC-S_Phone' contactMechTypeId='TELECOM_NUMBER' ></ContactMech>
-<ContactMech contactMechId='VJC-B_Address' contactMechTypeId='POSTAL_ADDRESS' ></ContactMech>
-<ContactMech contactMechId='VJC-S_Address' contactMechTypeId='POSTAL_ADDRESS' ></ContactMech>
+  <!-- 1. Party Types -->
+  <PartyType partyTypeId="PERSON" description="Person (human being)"/>
+  <PartyType partyTypeId="PARTY_GROUP" description="Party Group (company, organization, etc.)"/>
 
-<!-- Step 5.1 add billing and shipping phone to telecomNumber entity -->
-<TelecomNumber contactMechId='VJC-B_Phone' countryCode="+91" contactNumber='883374499'></TelecomNumber>
-<TelecomNumber contactMechItd='VJC-S_Phone' countryCode="+91" contactNumber='228899339'></TelecomNumber>
+  <!-- 2. Status Types -->
+  <StatusType statusTypeId="PARTY_STATUS" description="Status of a Party"/>
+  <StatusItem statusId="PARTY_ENABLED" statusTypeId="PARTY_STATUS" description="Enabled"/>
+  <StatusItem statusId="PARTY_DISABLED" statusTypeId="PARTY_STATUS" description="Disabled"/>
 
-<!-- Step 5.2 add billing and shipping address to PostalAddress entity -->
-<PostalAddress contactMechId='VJC-B_Address' city='Indore' houseNumber='13/b' address1='vaishali nagar,annapurna road ' postalCode='452001'></PostalAddress>
-<PostalAddress contactMechId='VJC-S_Address' city='Pune' houseNumber='24/a' address1='pune camp area,near mg road ' postalCode='48931'></PostalAddress>
+  <!-- 3. Role Types -->
+  <RoleType roleTypeId="CUSTOMER" description="Customer"/>
 
-<!-- step 6 Relate the party with its contact -->
-<PartyContactMech partyId='VJ-101' contactMechId='VJC-email' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
-<PartyContactMech partyId='VJ-101' contactMechId='VJC-B_Phone' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
-<PartyContactMech partyId='VJ-101' contactMechId='VJC-S_Phone' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
-<PartyContactMech partyId='VJ-101' contactMechId='VJC-B_Address' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
-<PartyContactMech partyId='VJ-101' contactMechId='VJC-S_Address' fromDate="2025-04-10 10:34:38.871"></PartyContactMech>
+  <!-- 4. Contact Mech Types -->
+  <ContactMechType contactMechTypeId="EMAIL_ADDRESS" description="Email Address"/>
+  <ContactMechType contactMechTypeId="TELECOM_NUMBER" description="Telephone Number"/>
+  <ContactMechType contactMechTypeId="POSTAL_ADDRESS" description="Postal Address"/>
 
-<!-- step 7 create contact mech purpose party -->
-<ContactMechPurposeType contactMechPurposeTypeId='PRIMARY_EMAIL' description='Primary Email' ></ContactMechPurposeType>
-<ContactMechPurposeType contactMechPurposeTypeId='BILLING_PHONE' description='Billing Phone' ></ContactMechPurposeType>
-<ContactMechPurposeType contactMechPurposeTypeId='SHIPPING_PHONE' description='Shipping Phone' ></ContactMechPurposeType>
-<ContactMechPurposeType contactMechPurposeTypeId='BILLING_ADDRESS' description='Billing Address' ></ContactMechPurposeType>
-<ContactMechPurposeType contactMechPurposeTypeId='SHIPPING_ADDRESS' description='Shipping Address' ></ContactMechPurposeType>
+  <!-- 5. Contact Purpose Types -->
+  <ContactMechPurposeType contactMechPurposeTypeId="PRIMARY_EMAIL" description="Primary Email for party"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="BILLING_PHONE" description="Billing Phone for party"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_PHONE" description="Shipping Phone for party"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="BILLING_ADDRESS" description="Billing Address for party"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_ADDRESS" description="Shipping Address for party"/>
 
-<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-email' contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
-<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-B_Phone' contactMechPurposeTypeId="BILLING_PHONE" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
-<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-S_Phone' contactMechPurposeTypeId="SHIPPING_PHONE" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
-<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-B_Address' contactMechPurposeTypeId="BILLING_ADDRESS" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
-<PartyContactMechPurpose partyId="VJ-101" contactMechId='VJC-S_Address' contactMechPurposeTypeId="SHIPPING_ADDRESS" fromDate="2025-04-10 10:34:38.871"></PartyContactMechPurpose>
+  <!-- 6. Geographic Boundary Data (USA and CA state, as used in the address) -->
+  <!-- Simplified Geo data for demonstration purposes, real OFBiz has full ISO lists -->
+  <Geo geoId="USA" geoTypeId="COUNTRY" geoName="United States of America" geoCode="US"/>
+  <Geo geoId="CA" geoTypeId="STATE" geoName="California" geoCode="CA"/>
+  <!-- Link CA to USA as a geopolitical boundary -->
+  <GeoAssoc geoId="USA" geoIdTo="CA" geoAssocTypeId="REGIONS"/>
+
+
+  
+  <Party partyId="SK-001"
+         partyTypeId="PERSON"
+         statusId="PARTY_ENABLED"
+         description="Customer party for Sakshi Verma"
+         createdStamp="2025-11-20 00:00:00.000"
+         createdTxStamp="2025-11-20 00:00:00.000"/>
+
+  
+  <Person partyId="SK-001"
+          firstName="Sakshi"
+          lastName="Verma"
+          gender="F"
+          birthDate="1991-11-11"
+          createdStamp="2025-11-20 00:00:00.000"
+          createdTxStamp="2025-11-20 00:00:00.000"/>
+
+  <!-- ===== STEP 3: Application user login ===== -->
+  <UserLogin userLoginId="sakshi.verma"
+             partyId="SK-001"
+             currentPassword="SK@1234"
+             enabled="Y"
+             hasLoggedOut="N"
+             createdStamp="2025-11-20 00:00:00.000"
+             createdTxStamp="2025-11-20 00:00:00.000"/>
+
+  <!-- ===== STEP 4: Party Role ===== -->
+  <PartyRole partyId="SK-001"
+             roleTypeId="CUSTOMER"
+             createdStamp="2025-11-20 00:00:00.000"
+             createdTxStamp="2025-11-20 00:00:00.000"/>
+
+  <!-- ===== STEP 5: Contact mechanisms (ContactMech) ===== -->
+  <ContactMech contactMechId="SK-email" contactMechTypeId="EMAIL_ADDRESS" infoString="sakshi.verma@yopmail.com" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <ContactMech contactMechId="SK-B_Phone" contactMechTypeId="TELECOM_NUMBER" infoString="+1-213-555-0100" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <ContactMech contactMechId="SK-S_Phone" contactMechTypeId="TELECOM_NUMBER" infoString="+1-213-555-0100" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <ContactMech contactMechId="SK-B_Address" contactMechTypeId="POSTAL_ADDRESS" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <ContactMech contactMechId="SK-S_Address" contactMechTypeId="POSTAL_ADDRESS" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+
+  <!-- ===== STEP 6: TelecomNumber details ===== -->
+  <TelecomNumber contactMechId="SK-B_Phone" countryCode="+1" areaCode="213" contactNumber="5550100" extension="" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <TelecomNumber contactMechId="SK-S_Phone" countryCode="+1" areaCode="213" contactNumber="5550100" extension="" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+
+  <!-- ===== STEP 7: PostalAddress details ===== -->
+  <PostalAddress contactMechId="SK-B_Address" toName="Sakshi Verma" address1="300 N Los Angeles St" city="Los Angeles" postalCode="90012" stateProvinceGeoId="CA" countryGeoId="USA" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <PostalAddress contactMechId="SK-S_Address" toName="Sakshi Verma" address1="300 N Los Angeles St" city="Los Angeles" postalCode="90012" stateProvinceGeoId="CA" countryGeoId="USA" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+
+  <!-- ===== STEP 8: Link Party to each ContactMech (PartyContactMech) ===== -->
+  <PartyContactMech partyId="SK-001" contactMechId="SK-email" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMech partyId="SK-001" contactMechId="SK-B_Phone" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMech partyId="SK-001" contactMechId="SK-S_Phone" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMech partyId="SK-001" contactMechId="SK-B_Address" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMech partyId="SK-001" contactMechId="SK-S_Address" fromDate="2025-11-20 00:00:00.000"/>
+
+  <!-- ===== STEP 9: Mark PartyContactMechPurpose (tie the party's contact mech to a purpose) - [FIXED TRUNCATION] ===== -->
+  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-email" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-B_Phone" contactMechPurposeTypeId="BILLING_PHONE" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-S_Phone" contactMechPurposeTypeId="SHIPPING_PHONE" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-B_Address" contactMechPurposeTypeId="BILLING_ADDRESS" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-S_Address" contactMechPurposeTypeId="SHIPPING_ADDRESS" fromDate="2025-11-20 00:00:00.000"/>
+
+
