@@ -1,62 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- InventoryDataSetup.xml (updated)
+     - Adds inventoryItemTypeId, uomId, facilityLocationId on InventoryItem
+     - Recomputes availableToPromiseTotal = quantityOnHandTotal - safetyStock (safetyStock = 5)
+     - Facility: FAC-BROADWAY, owner: EMP-9001
+     - Import AFTER ProductDataSetup.xml and FacilityDataSetup.xml
+-->
 <entity-engine-xml>
 
-  <!-- Masters (add only if missing) -->
-  <Product productId="PURU_VARIANT_PROD1" productTypeId="FINISHED_GOOD" productName="Puru Variant Product 1" internalName="Puru Variant Prod 1" isVirtual="Y"/>
-  <Product productId="PURU_VARIANT_PROD2" productTypeId="FINISHED_GOOD" productName="Puru Variant Product 2" internalName="Puru Variant Prod 2" isVirtual="Y"/>
-
-  <Party partyId="VJ-101" partyTypeId="PERSON" statusId="PARTY_ENABLED"/>
-  <Facility facilityId="FAC-BROADWAY" facilityTypeId="WAREHOUSE" ownerPartyId="VJ-101" defaultInventoryItemTypeId="FINISHED_GOOD" facilityName="Broadway Warehouse" primaryFacilityGroupId="FG-01" productStoreId="STORE-1001" defaultWeightUomId="KGS"/>
-
-  <InventoryItemType inventoryItemTypeId="FINISHED_GOOD" description="Finished goods"/>
-  <FacilityGroup facilityGroupId="FG-01" description="East region primary facility group"/>
-  <ProductStore productStoreId="STORE-1001" storeName="East Region Store 1001"/>
-  <Uom uomId="KGS" abbreviation="kg" description="Kilograms"/>
-
-  <!-- Enumeration type + reasons required by InventoryItemDetail.reasonEnumId -->
-  <EnumerationType enumTypeId="InventoryReasonEnum" description="Inventory reasons"/>
+  <!-- Enum type & reasons used by InventoryItemDetail.reasonEnumId -->
+  <EnumerationType enumTypeId="InventoryReasonEnum" description="Inventory reasons" />
   <Enumeration enumId="RECEIPT" enumTypeId="InventoryReasonEnum" description="Receipt from supplier" sequenceNum="10"/>
   <Enumeration enumId="STOCK_TAKE" enumTypeId="InventoryReasonEnum" description="Stock take" sequenceNum="20"/>
   <Enumeration enumId="ADJUSTMENT" enumTypeId="InventoryReasonEnum" description="Manual adjustment" sequenceNum="30"/>
 
-  <!-- INVENTORYITEM rows -->
+  <!-- InventoryItemType & UOM (ensure exist) -->
+  <InventoryItemType inventoryItemTypeId="STOCK" description="Stock inventory item" />
+  <Uom uomId="KGS" abbreviation="kg" description="Kilograms" />
+
+  <!-- FacilityLocation references assumed present for FAC-BROADWAY:
+       - locationSeqId "01" (AISLE)
+       - locationSeqId "02" (BIN)
+  -->
+
+  <!-- Inventory items for demo products at FAC-BROADWAY (owner EMP-9001)
+       Safety stock = 5 units (applied per item)
+       availableToPromiseTotal = quantityOnHandTotal - 5
+  -->
   <InventoryItem
-    inventoryItemId="INV-001"
-    productId="PURU_VARIANT_PROD1"
+    inventoryItemId="INV-MS-001"
+    productId="MS-1"
     facilityId="FAC-BROADWAY"
-    quantityOnHandTotal="23.000"
+    facilityLocationId="01"
+    ownerPartyId="EMP-9001"
+    inventoryItemTypeId="STOCK"
+    uomId="KGS"
+    quantityOnHandTotal="120"
+    availableToPromiseTotal="115"
+    statusId="IN_STOCK"
   />
 
   <InventoryItem
-    inventoryItemId="INV-002"
-    productId="PURU_VARIANT_PROD2"
+    inventoryItemId="INV-MF-001"
+    productId="MF-1"
     facilityId="FAC-BROADWAY"
-    quantityOnHandTotal="3.000"
+    facilityLocationId="01"
+    ownerPartyId="EMP-9001"
+    inventoryItemTypeId="STOCK"
+    uomId="KGS"
+    quantityOnHandTotal="80"
+    availableToPromiseTotal="75"
+    statusId="IN_STOCK"
   />
 
-  <!-- INVENTORYITEMDETAIL rows using composite PK: inventoryItemId + inventoryItemDetailSeqId -->
+  <InventoryItem
+    inventoryItemId="INV-MP-001"
+    productId="MP-1"
+    facilityId="FAC-BROADWAY"
+    facilityLocationId="02"
+    ownerPartyId="EMP-9001"
+    inventoryItemTypeId="STOCK"
+    uomId="KGS"
+    quantityOnHandTotal="45"
+    availableToPromiseTotal="40"
+    statusId="IN_STOCK"
+  />
+
+  <InventoryItem
+    inventoryItemId="INV-WS-001"
+    productId="WS-1"
+    facilityId="FAC-BROADWAY"
+    facilityLocationId="02"
+    ownerPartyId="EMP-9001"
+    inventoryItemTypeId="STOCK"
+    uomId="KGS"
+    quantityOnHandTotal="60"
+    availableToPromiseTotal="55"
+    statusId="IN_STOCK"
+  />
+
+  <InventoryItem
+    inventoryItemId="INV-WF-001"
+    productId="WF-1"
+    facilityId="FAC-BROADWAY"
+    facilityLocationId="01"
+    ownerPartyId="EMP-9001"
+    inventoryItemTypeId="STOCK"
+    uomId="KGS"
+    quantityOnHandTotal="30"
+    availableToPromiseTotal="25"
+    statusId="IN_STOCK"
+  />
+
+  <InventoryItem
+    inventoryItemId="INV-WP-001"
+    productId="WP-1"
+    facilityId="FAC-BROADWAY"
+    facilityLocationId="02"
+    ownerPartyId="EMP-9001"
+    inventoryItemTypeId="STOCK"
+    uomId="KGS"
+    quantityOnHandTotal="22"
+    availableToPromiseTotal="17"
+    statusId="IN_STOCK"
+  />
+
+  <InventoryItem
+    inventoryItemId="INV-C-001"
+    productId="C-1"
+    facilityId="FAC-BROADWAY"
+    facilityLocationId="01"
+    ownerPartyId="EMP-9001"
+    inventoryItemTypeId="STOCK"
+    uomId="KGS"
+    quantityOnHandTotal="15"
+    availableToPromiseTotal="10"
+    statusId="IN_STOCK"
+  />
+
+  <!-- InventoryItemDetail: history of changes (kept as-is) -->
   <InventoryItemDetail
-    inventoryItemId="INV-001"
+    inventoryItemId="INV-MS-001"
     inventoryItemDetailSeqId="1"
-    quantityOnHandDiff="5.000"
-    inventoryDate="2025-11-18 05:00:00.0"
+    quantityOnHandDiff="50"
+    inventoryDate="2025-11-18 08:00:00.000"
     reasonEnumId="RECEIPT"
+    comments="Initial PO receipt"
   />
 
   <InventoryItemDetail
-    inventoryItemId="INV-001"
+    inventoryItemId="INV-MS-001"
     inventoryItemDetailSeqId="2"
-    quantityOnHandDiff="-2.000"
-    inventoryDate="2025-11-18 05:15:00.0"
+    quantityOnHandDiff="-5"
+    inventoryDate="2025-11-18 12:30:00.000"
     reasonEnumId="STOCK_TAKE"
+    comments="Cycle count adjustment"
   />
 
   <InventoryItemDetail
-    inventoryItemId="INV-002"
+    inventoryItemId="INV-MF-001"
     inventoryItemDetailSeqId="1"
-    quantityOnHandDiff="3.000"
-    inventoryDate="2025-11-18 05:20:00.0"
+    quantityOnHandDiff="80"
+    inventoryDate="2025-11-17 09:15:00.000"
     reasonEnumId="RECEIPT"
+    comments="Supplier receipt"
+  />
+
+  <InventoryItemDetail
+    inventoryItemId="INV-WP-001"
+    inventoryItemDetailSeqId="1"
+    quantityOnHandDiff="2"
+    inventoryDate="2025-11-19 10:00:00.000"
+    reasonEnumId="ADJUSTMENT"
+    comments="Manual adjustment for damage"
+  />
+
+  <InventoryItemDetail
+    inventoryItemId="INV-C-001"
+    inventoryItemDetailSeqId="1"
+    quantityOnHandDiff="15"
+    inventoryDate="2025-11-18 08:30:00.000"
+    reasonEnumId="RECEIPT"
+    comments="Initial store receipt"
   />
 
 </entity-engine-xml>

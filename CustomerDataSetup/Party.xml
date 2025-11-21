@@ -1,105 +1,85 @@
-<!--
-  CustomerDataSetup_Complete.xml
-  - Includes all required base data (seed data) for a minimal import environment.
-  - Fixes the truncated end of the previous file.
-  - All IDs use SK-* or a standard OFBiz naming convention.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CustomerDataSetup.xml -->
+<entity-engine-xml>
 
+  <!-- BASE TYPES -->
+  <PartyType partyTypeId="PERSON" description="Person (human)"/>
+  <PartyType partyTypeId="PARTY_GROUP" description="Party Group"/>
 
-
-  <!-- ===== BASE DATA (SEED) ENTITIES - Assumed to be missing, so defined here ===== -->
-
-  <!-- 1. Party Types -->
-  <PartyType partyTypeId="PERSON" description="Person (human being)"/>
-  <PartyType partyTypeId="PARTY_GROUP" description="Party Group (company, organization, etc.)"/>
-
-  <!-- 2. Status Types -->
   <StatusType statusTypeId="PARTY_STATUS" description="Status of a Party"/>
   <StatusItem statusId="PARTY_ENABLED" statusTypeId="PARTY_STATUS" description="Enabled"/>
   <StatusItem statusId="PARTY_DISABLED" statusTypeId="PARTY_STATUS" description="Disabled"/>
 
-  <!-- 3. Role Types -->
   <RoleType roleTypeId="CUSTOMER" description="Customer"/>
 
-  <!-- 4. Contact Mech Types -->
   <ContactMechType contactMechTypeId="EMAIL_ADDRESS" description="Email Address"/>
   <ContactMechType contactMechTypeId="TELECOM_NUMBER" description="Telephone Number"/>
   <ContactMechType contactMechTypeId="POSTAL_ADDRESS" description="Postal Address"/>
 
-  <!-- 5. Contact Purpose Types -->
-  <ContactMechPurposeType contactMechPurposeTypeId="PRIMARY_EMAIL" description="Primary Email for party"/>
-  <ContactMechPurposeType contactMechPurposeTypeId="BILLING_PHONE" description="Billing Phone for party"/>
-  <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_PHONE" description="Shipping Phone for party"/>
-  <ContactMechPurposeType contactMechPurposeTypeId="BILLING_ADDRESS" description="Billing Address for party"/>
-  <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_ADDRESS" description="Shipping Address for party"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="PRIMARY_EMAIL" description="Primary Email"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="BILLING_PHONE" description="Billing Phone"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_PHONE" description="Shipping Phone"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="BILLING_ADDRESS" description="Billing Address"/>
+  <ContactMechPurposeType contactMechPurposeTypeId="SHIPPING_ADDRESS" description="Shipping Address"/>
 
-  <!-- 6. Geographic Boundary Data (USA and CA state, as used in the address) -->
-  <!-- Simplified Geo data for demonstration purposes, real OFBiz has full ISO lists -->
+  <!-- GEO (simplified) -->
   <Geo geoId="USA" geoTypeId="COUNTRY" geoName="United States of America" geoCode="US"/>
   <Geo geoId="CA" geoTypeId="STATE" geoName="California" geoCode="CA"/>
-  <!-- Link CA to USA as a geopolitical boundary -->
   <GeoAssoc geoId="USA" geoIdTo="CA" geoAssocTypeId="REGIONS"/>
 
-
-  
-  <Party partyId="SK-001"
+  <!-- DEMO CUSTOMER: Party + Person -->
+  <Party partyId="CUST-2001"
          partyTypeId="PERSON"
          statusId="PARTY_ENABLED"
-         description="Customer party for Sakshi Verma"
-         createdStamp="2025-11-20 00:00:00.000"
-         createdTxStamp="2025-11-20 00:00:00.000"/>
+         description="Demo customer - Mia Thompson"
+         createdStamp="2025-11-21 11:00:00.000"
+         createdTxStamp="2025-11-21 11:00:00.000"/>
 
-  
-  <Person partyId="SK-001"
-          firstName="Sakshi"
-          lastName="Verma"
+  <Person partyId="CUST-2001"
+          firstName="Mia"
+          lastName="Thompson"
           gender="F"
-          birthDate="1991-11-11"
-          createdStamp="2025-11-20 00:00:00.000"
-          createdTxStamp="2025-11-20 00:00:00.000"/>
+          birthDate="1992-04-12"
+          createdStamp="2025-11-21 11:00:00.000"
+          createdTxStamp="2025-11-21 11:00:00.000"/>
 
-  <!-- ===== STEP 3: Application user login ===== -->
-  <UserLogin userLoginId="sakshi.verma"
-             partyId="SK-001"
-             currentPassword="SK@1234"
-             enabled="Y"
-             hasLoggedOut="N"
-             createdStamp="2025-11-20 00:00:00.000"
-             createdTxStamp="2025-11-20 00:00:00.000"/>
+  <!-- CONTACT MECHANISMS -->
+  <ContactMech contactMechId="CM-2001" contactMechTypeId="EMAIL_ADDRESS"
+               infoString="mia.thompson+demo@yopmail.com"
+               createdStamp="2025-11-21 11:00:00.000" createdTxStamp="2025-11-21 11:00:00.000"/>
 
-  <!-- ===== STEP 4: Party Role ===== -->
-  <PartyRole partyId="SK-001"
-             roleTypeId="CUSTOMER"
-             createdStamp="2025-11-20 00:00:00.000"
-             createdTxStamp="2025-11-20 00:00:00.000"/>
+  <ContactMech contactMechId="CM-2002" contactMechTypeId="TELECOM_NUMBER"
+               infoString="+1-415-555-0142"
+               createdStamp="2025-11-21 11:00:00.000" createdTxStamp="2025-11-21 11:00:00.000"/>
 
-  <!-- ===== STEP 5: Contact mechanisms (ContactMech) ===== -->
-  <ContactMech contactMechId="SK-email" contactMechTypeId="EMAIL_ADDRESS" infoString="sakshi.verma@yopmail.com" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
-  <ContactMech contactMechId="SK-B_Phone" contactMechTypeId="TELECOM_NUMBER" infoString="+1-213-555-0100" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
-  <ContactMech contactMechId="SK-S_Phone" contactMechTypeId="TELECOM_NUMBER" infoString="+1-213-555-0100" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
-  <ContactMech contactMechId="SK-B_Address" contactMechTypeId="POSTAL_ADDRESS" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
-  <ContactMech contactMechId="SK-S_Address" contactMechTypeId="POSTAL_ADDRESS" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <ContactMech contactMechId="CM-2003" contactMechTypeId="POSTAL_ADDRESS"
+               infoString="742 Market Street, San Francisco, CA 94103"
+               createdStamp="2025-11-21 11:00:00.000" createdTxStamp="2025-11-21 11:00:00.000"/>
 
-  <!-- ===== STEP 6: TelecomNumber details ===== -->
-  <TelecomNumber contactMechId="SK-B_Phone" countryCode="+1" areaCode="213" contactNumber="5550100" extension="" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
-  <TelecomNumber contactMechId="SK-S_Phone" countryCode="+1" areaCode="213" contactNumber="5550100" extension="" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <!-- Telecom and Postal details -->
+  <TelecomNumber contactMechId="CM-2002" countryCode="+1" areaCode="415" contactNumber="5550142"
+                 createdStamp="2025-11-21 11:00:00.000" createdTxStamp="2025-11-21 11:00:00.000"/>
 
-  <!-- ===== STEP 7: PostalAddress details ===== -->
-  <PostalAddress contactMechId="SK-B_Address" toName="Sakshi Verma" address1="300 N Los Angeles St" city="Los Angeles" postalCode="90012" stateProvinceGeoId="CA" countryGeoId="USA" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
-  <PostalAddress contactMechId="SK-S_Address" toName="Sakshi Verma" address1="300 N Los Angeles St" city="Los Angeles" postalCode="90012" stateProvinceGeoId="CA" countryGeoId="USA" createdStamp="2025-11-20 00:00:00.000" createdTxStamp="2025-11-20 00:00:00.000"/>
+  <PostalAddress contactMechId="CM-2003"
+                 toName="Mia Thompson"
+                 address1="742 Market Street"
+                 city="San Francisco"
+                 postalCode="94103"
+                 stateProvinceGeoId="CA"
+                 countryGeoId="USA"
+                 createdStamp="2025-11-21 11:00:00.000"
+                 createdTxStamp="2025-11-21 11:00:00.000"/>
 
-  <!-- ===== STEP 8: Link Party to each ContactMech (PartyContactMech) ===== -->
-  <PartyContactMech partyId="SK-001" contactMechId="SK-email" fromDate="2025-11-20 00:00:00.000"/>
-  <PartyContactMech partyId="SK-001" contactMechId="SK-B_Phone" fromDate="2025-11-20 00:00:00.000"/>
-  <PartyContactMech partyId="SK-001" contactMechId="SK-S_Phone" fromDate="2025-11-20 00:00:00.000"/>
-  <PartyContactMech partyId="SK-001" contactMechId="SK-B_Address" fromDate="2025-11-20 00:00:00.000"/>
-  <PartyContactMech partyId="SK-001" contactMechId="SK-S_Address" fromDate="2025-11-20 00:00:00.000"/>
+  <!-- Links -->
+  <PartyContactMech partyId="CUST-2001" contactMechId="CM-2001" fromDate="2025-11-21 11:00:00.000"/>
+  <PartyContactMech partyId="CUST-2001" contactMechId="CM-2002" fromDate="2025-11-21 11:00:00.000"/>
+  <PartyContactMech partyId="CUST-2001" contactMechId="CM-2003" fromDate="2025-11-21 11:00:00.000"/>
 
-  <!-- ===== STEP 9: Mark PartyContactMechPurpose (tie the party's contact mech to a purpose) - [FIXED TRUNCATION] ===== -->
-  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-email" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2025-11-20 00:00:00.000"/>
-  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-B_Phone" contactMechPurposeTypeId="BILLING_PHONE" fromDate="2025-11-20 00:00:00.000"/>
-  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-S_Phone" contactMechPurposeTypeId="SHIPPING_PHONE" fromDate="2025-11-20 00:00:00.000"/>
-  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-B_Address" contactMechPurposeTypeId="BILLING_ADDRESS" fromDate="2025-11-20 00:00:00.000"/>
-  <PartyContactMechPurpose partyId="SK-001" contactMechId="SK-S_Address" contactMechPurposeTypeId="SHIPPING_ADDRESS" fromDate="2025-11-20 00:00:00.000"/>
+  <PartyContactMechPurpose partyId="CUST-2001" contactMechId="CM-2001" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2025-11-21 11:00:00.000"/>
+  <PartyContactMechPurpose partyId="CUST-2001" contactMechId="CM-2002" contactMechPurposeTypeId="BILLING_PHONE" fromDate="2025-11-21 11:00:00.000"/>
+  <PartyContactMechPurpose partyId="CUST-2001" contactMechId="CM-2003" contactMechPurposeTypeId="BILLING_ADDRESS" fromDate="2025-11-21 11:00:00.000"/>
 
+  <PartyRole partyId="CUST-2001" roleTypeId="CUSTOMER"
+             createdStamp="2025-11-21 11:00:00.000" createdTxStamp="2025-11-21 11:00:00.000"/>
 
+</entity-engine-xml>

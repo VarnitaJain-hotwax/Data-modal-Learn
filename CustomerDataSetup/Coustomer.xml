@@ -1,24 +1,39 @@
-<!-- Party for the user -->
-<Party partyId="VJ-101" partyTypeId="PERSON" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- UserDataSetup.xml -->
+<entity-engine-xml>
 
-<!-- Person details -->
-<Person partyId="VJ-101" firstName="Varnita" lastName="Jain" />
+  <Party partyId="EMP-9001"
+         partyTypeId="PERSON"
+         statusId="PARTY_ENABLED"
+         description="Demo application user - Ethan Patel"
+         createdStamp="2025-11-21 11:00:00.000" createdTxStamp="2025-11-21 11:00:00.000"/>
 
-<!-- User login mapped to this party -->
-<UserLogin userLoginId="varnita.jain" currentPassword="test@123"
-           enabled="Y" partyId="VJ-101"/>
+  <Person partyId="EMP-9001"
+          firstName="Ethan"
+          lastName="Patel"
+          gender="M"
+          birthDate="1989-07-02"
+          createdStamp="2025-11-21 11:00:00.000" createdTxStamp="2025-11-21 11:00:00.000"/>
 
-<!-- Security Groups -->
-<SecurityGroup groupId="vj_group1" description="this is practice security group1" />
-<SecurityGroup groupId="vj_group2" description="this is practice security group2" />
+  <UserLogin userLoginId="ethan.patel"
+             partyId="EMP-9001"
+             currentPasswordEncrypted="hashed-password-placeholder"
+             enabled="Y"
+             requirePasswordChange="N"
+             createdStamp="2025-11-21 11:00:00.000"
+             createdTxStamp="2025-11-21 11:00:00.000"/>
 
-<!-- Group Permissions -->
-<SecurityGroupPermission groupId="vj_group1" permissionId="ACCOUNTING_ADMIN" />
-<SecurityGroupPermission groupId="vj_group2" permissionId="ACCOUNTING_DELETE" />
-<SecurityGroupPermission groupId="vj_group2" permissionId="ACCOUNTING_CREATE" />
+  <SecurityGroup groupId="CSR_GROUP" description="Customer Service Representatives"/>
+  <SecurityGroup groupId="ORDER_APPROVER" description="Order Approvers"/>
 
-<!-- Assign Groups to User -->
-<UserLoginSecurityGroup userLoginId="varnita.jain" groupId="NB_group1"
-                        fromDate="2025-04-10 10:34:38.871" />
-<UserLoginSecurityGroup userLoginId="varnita.jain" groupId="NB_group2"
-                        fromDate="2025-04-10 10:34:38.871" />
+  <SecurityGroupPermission groupId="ORDER_APPROVER" permissionId="PERM_ORDER_APPROVE" description="Can approve orders"/>
+  <SecurityGroupPermission groupId="CSR_GROUP" permissionId="PERM_ORDER_VIEW" description="Can view orders"/>
+  <SecurityGroupPermission groupId="CSR_GROUP" permissionId="PERM_INVENTORY_VIEW" description="Can view inventory"/>
+
+  <UserLoginSecurityGroup userLoginId="ethan.patel" groupId="CSR_GROUP" fromDate="2025-11-21 11:00:00.000"/>
+  <UserLoginSecurityGroup userLoginId="ethan.patel" groupId="ORDER_APPROVER" fromDate="2025-11-21 11:00:00.000"/>
+
+  <PartyRole partyId="EMP-9001" roleTypeId="EMPLOYEE"
+             createdStamp="2025-11-21 11:00:00.000" createdTxStamp="2025-11-21 11:00:00.000"/>
+
+</entity-engine-xml>
