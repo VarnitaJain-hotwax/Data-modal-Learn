@@ -1,66 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OrderData.xml
+     - Demo order flow: Created -> Approved -> Reserve -> Pick -> Issue -> Ship -> Complete
+     - Uses demo IDs: CUST-2001, EMP-9001 (ethan.patel), FAC-BROADWAY, MS-1, MF-1, INV-MS-001, INV-MF-001
+     - Flowchart reference: /mnt/data/adc7536e-9ae6-460d-b14d-383da7f15931.png
+-->
 <entity-engine-xml>
 
-    <!-- 1) Create order header -->
-    <OrderHeader
-        orderId="HWMDEMO1000"
-        orderTypeId="SALES_ORDER"
-        statusId="ORDER_CREATED"
-        createdBy="mark-tailor"
-        orderDate="2024-02-03 00:00:00.0"
-        entryDate="2024-02-04 00:00:00.0"
-    />
+  <!-- Order created -->
+  <OrderHeader orderId="ORD-20251123-5001"
+               orderTypeId="SALES_ORDER"
+               statusId="ORDER_CREATED"
+               createdBy="ethan.patel"
+               orderDate="2025-11-23 09:30:00.000"
+               entryDate="2025-11-23 09:30:00.000"
+               productStoreId="DEMO-STORE-US"
+               grandTotal="199.97"
+               partyId="CUST-2001"
+               createdStamp="2025-11-23 09:30:00.000"
+               createdTxStamp="2025-11-23 09:30:00.000"/>
 
-    <!-- 2) Order status row -->
-    <OrderStatus
-        orderStatusId="HWMDEMO1000CREATED"
-        orderId="HWMDEMO1000"
-        statusId="ORDER_CREATED"
-        statusUserLogin="mark-tailor"
-    />
+  <!-- Initial order status -->
+  <OrderStatus orderStatusId="ORD-20251123-5001-CREATED"
+               orderId="ORD-20251123-5001"
+               statusId="ORDER_CREATED"
+               statusUserLogin="ethan.patel"
+               statusDatetime="2025-11-23 09:30:00.000"/>
 
-    <!-- 3) Order items + item-level statuses -->
-    <OrderItem orderId="HWMDEMO1000" orderItemSeqId="1" productId="PURU_VARIANT_PROD1" statusId="ITEM_CREATED" quantity="23"/>
-    <OrderStatus orderStatusId="HWMDEMO10001CREATED" orderId="HWMDEMO1000" orderItemSeqId="1" statusId="ITEM_CREATED" />
+  <!-- Ship groups (two ship groups to illustrate split) -->
+  <OrderItemShipGroup orderId="ORD-20251123-5001" shipGroupSeqId="00001" shipmentMethodTypeId="STANDARD" carrierPartyId="FEDEX" facilityId="FAC-BROADWAY" />
+  <OrderItemShipGroup orderId="ORD-20251123-5001" shipGroupSeqId="00002" shipmentMethodTypeId="STANDARD" carrierPartyId="FEDEX" facilityId="FAC-BROADWAY" />
 
-    <OrderItem orderId="HWMDEMO1000" orderItemSeqId="2" productId="PURU_VARIANT_PROD2" statusId="ITEM_CREATED" quantity="3"/>
-    <OrderStatus orderStatusId="HWMDEMO10002CREATED" orderId="HWMDEMO1000" orderItemSeqId="2" statusId="ITEM_CREATED" />
+  <!-- Items and item-level status -->
+  <OrderItem orderId="ORD-20251123-5001" orderItemSeqId="00001" shipGroupSeqId="00001" productId="MS-1" quantity="2" unitPrice="49.99" statusId="ITEM_CREATED" createdStamp="2025-11-23 09:30:00.000"/>
+  <OrderItem orderId="ORD-20251123-5001" orderItemSeqId="00002" shipGroupSeqId="00002" productId="MF-1" quantity="1" unitPrice="99.99" statusId="ITEM_CREATED" createdStamp="2025-11-23 09:30:00.000"/>
 
-    <!-- 4) Billing and shipping locations (contact mech IDs should exist already) -->
-    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10022" contactMechPurposeTypeId="BILLING_LOCATION"/>
-    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10022" contactMechPurposeTypeId="SHIPPING_LOCATION"/>
+  <OrderStatus orderStatusId="ORD-20251123-5001-IT1" orderId="ORD-20251123-5001" orderItemSeqId="00001" statusId="ITEM_CREATED" statusUserLogin="ethan.patel" statusDatetime="2025-11-23 09:30:00.000"/>
+  <OrderStatus orderStatusId="ORD-20251123-5001-IT2" orderId="ORD-20251123-5001" orderItemSeqId="00002" statusId="ITEM_CREATED" statusUserLogin="ethan.patel" statusDatetime="2025-11-23 09:30:00.000"/>
 
-    <!-- 5) Order roles (who is billed / who is shipped to) 
-         NOTE: fromDate is required as part of the primary key for OrderRole -->
-    <OrderRole
-        orderId="HWMDEMO1000"
-        roleTypeId="SHIP_TO_CUSTOMER"
-        partyId="MarkCustomer"
-        fromDate="2024-02-04 00:00:00.0"
-    />
-    <OrderRole
-        orderId="HWMDEMO1000"
-        roleTypeId="BILL_TO_CUSTOMER"
-        partyId="MarkCustomer"
-        fromDate="2024-02-04 00:00:00.0"
-    />
+  <!-- Contact mechanisms (billing & shipping) -->
+  <OrderContactMech orderId="ORD-20251123-5001" contactMechId="CM-2003" contactMechPurposeTypeId="SHIPPING_LOCATION"/>
+  <OrderContactMech orderId="ORD-20251123-5001" contactMechId="CM-2003" contactMechPurposeTypeId="BILLING_LOCATION"/>
 
-    <!-- 6) Other contact mech rows (phone / email) -->
-    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10024" contactMechPurposeTypeId="PHONE_BILLING"/>
-    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10024" contactMechPurposeTypeId="PHONE_SHIPPING"/>
-    <OrderContactMech orderId="HWMDEMO1000" contactMechId="10023" contactMechPurposeTypeId="PRIMARY_EMAIL"/>
+  <!-- Roles -->
+  <OrderRole orderId="ORD-20251123-5001" roleTypeId="SHIP_TO_CUSTOMER" partyId="CUST-2001" fromDate="2025-11-23 09:30:00.000"/>
+  <OrderRole orderId="ORD-20251123-5001" roleTypeId="BILL_TO_CUSTOMER" partyId="CUST-2001" fromDate="2025-11-23 09:30:00.000"/>
 
-    <!-- 7) Create ship group and associate order items to it -->
-    <OrderItemShipGroup orderId="HWMDEMO1000" shipGroupSeqId="1" shipmentMethodTypeId="GROUND" carrierPartyId="UPS" />
-    <OrderItemShipGroupAssoc orderId="HWMDEMO1000" orderItemSeqId="1" shipGroupSeqId="1" quantity="23"/>
-    <OrderItemShipGroupAssoc orderId="HWMDEMO1000" orderItemSeqId="2" shipGroupSeqId="1" quantity="3"/>
+  <!-- Payment -->
+  <PaymentMethodType paymentMethodTypeId="CREDIT_CARD" description="Credit Card"/>
+  <PaymentMethod paymentMethodId="PM-20251123-01" partyId="CUST-2001" paymentMethodTypeId="CREDIT_CARD" cardNumber="xxxx-xxxx-xxxx-4242" cardExpiration="12/2026"/>
+  <OrderPaymentPreference orderPaymentPreferenceId="OPP-20251123-01" orderId="ORD-20251123-5001" paymentMethodId="PM-20251123-01" maxAmount="199.97" statusId="PAYMENT_AUTHORIZED"/>
 
-    <!-- 8) Payment preference -->
-    <OrderPaymentPreference
-        orderPaymentPreferenceId="PKPAYPREF1000"
-        orderId="HWMDEMO1000"
-        paymentMethodTypeId="CREDIT_CARD"
-        paymentMethodId="10010"
-        statusId="PAYMENT_AUTHORIZED"
-    />
+  <!-- Order approved (simulated auto-approval or manual) -->
+  <OrderHeader orderId="ORD-20251123-5001" orderTypeId="SALES_ORDER" statusId="ORDER_APPROVED" createdBy="ethan.patel" orderDate="2025-11-23 09:35:00.000" entryDate="2025-11-23 09:35:00.000"/>
+  <OrderStatus orderStatusId="ORD-20251123-5001-APP" orderId="ORD-20251123-5001" statusId="ORDER_APPROVED" statusUserLogin="ethan.patel" statusDatetime="2025-11-23 09:35:00.000"/>
+
+  <OrderItem orderId="ORD-20251123-5001" orderItemSeqId="00001" shipGroupSeqId="00001" productId="MS-1" statusId="ITEM_APPROVED" quantity="2"/>
+  <OrderItem orderId="ORD-20251123-5001" orderItemSeqId="00002" shipGroupSeqId="00002" productId="MF-1" statusId="ITEM_APPROVED" quantity="1"/>
+  <OrderStatus orderStatusId="ORD-20251123-5001-APP1" orderId="ORD-20251123-5001" orderItemSeqId="00001" statusId="ITEM_APPROVED" statusDatetime="2025-11-23 09:35:00.000"/>
+  <OrderStatus orderStatusId="ORD-20251123-5001-APP2" orderId="ORD-20251123-5001" orderItemSeqId="00002" statusId="ITEM_APPROVED" statusDatetime="2025-11-23 09:35:00.000"/>
+
+  <!-- Inventory reservation (map order items to inventory items) -->
+  <OrderItemShipGrpInvRes inventoryItemId="INV-MS-001" orderId="ORD-20251123-5001" orderItemSeqId="00001" quantity="2.000000" reserveOrderEnumId="INVRO_FIFO_REC" reservedDatetime="2025-11-23 09:40:00.000" shipGroupSeqId="00001"/>
+  <OrderItemShipGrpInvRes inventoryItemId="INV-MF-001" orderId="ORD-20251123-5001" orderItemSeqId="00002" quantity="1.000000" reserveOrderEnumId="INVRO_FIFO_REC" reservedDatetime="2025-11-23 09:40:00.000" shipGroupSeqId="00002"/>
+
+  <!-- ProductFacility entries (reflect facility stock policy for these products) -->
+  <ProductFacility facilityId="FAC-BROADWAY" productId="MS-1" inventoryItemId="INV-MS-001" minimumStock="5" allowBrokering="N" lastInventoryCount="120" computedLastInventoryCount="115"/>
+  <ProductFacility facilityId="FAC-BROADWAY" productId="MF-1" inventoryItemId="INV-MF-001" minimumStock="5" allowBrokering="N" lastInventoryCount="80" computedLastInventoryCount="75"/>
+
+  <!-- InventoryItemDetail: reflect ATP change due to reservation (availableToPromiseDiff negative) -->
+  <InventoryItemDetail inventoryItemId="INV-MS-001" inventoryItemDetailSeqId="MS-R-1" quantityOnHandDiff="0" availableToPromiseDiff="-2" effectiveDate="2025-11-23 09:40:00.000" orderId="ORD-20251123-5001" orderItemSeqId="00001" shipGroupSeqId="00001" comments="Reserved 2 units for order"/>
+  <InventoryItemDetail inventoryItemId="INV-MF-001" inventoryItemDetailSeqId="MF-R-1" quantityOnHandDiff="0" availableToPromiseDiff="-1" effectiveDate="2025-11-23 09:40:00.000" orderId="ORD-20251123-5001" orderItemSeqId="00002" shipGroupSeqId="00002" comments="Reserved 1 unit for order"/>
+
+  <!-- Generate picklist -->
+  <Picklist picklistId="PCK-20251123-1301" facilityId="FAC-BROADWAY" createdByUserLogin="ethan.patel" picklistDate="2025-11-23 11:00:00.000" statusId="PICKLIST_PRINTED"/>
+  <PicklistItem picklistId="PCK-20251123-1301" orderId="ORD-20251123-5001" orderItemSeqId="00001" quantity="2"/>
+  <PicklistItem picklistId="PCK-20251123-1301" orderId="ORD-20251123-5001" orderItemSeqId="00002" quantity="1"/>
+  <PicklistStatus picklistId="PCK-20251123-1301" statusId="PICKED" statusDatetime="2025-11-23 11:20:00.000"/>
+
+  <!-- Item issuance (picker picks & issues inventory) -->
+  <ItemIssuance itemIssuanceId="ISS-20251123-7001" orderId="ORD-20251123-5001" orderItemSeqId="00001" shipGroupSeqId="00001" inventoryItemId="INV-MS-001" quantity="2" issuedDateTime="2025-11-23 11:22:00.000" issuedByUserLogin="ethan.patel" comments="Picked 2 units"/>
+  <ItemIssuance itemIssuanceId="ISS-20251123-7002" orderId="ORD-20251123-5001" orderItemSeqId="00002" shipGroupSeqId="00002" inventoryItemId="INV-MF-001" quantity="1" issuedDateTime="2025-11-23 11:24:00.000" issuedByUserLogin="ethan.patel" comments="Picked 1 unit"/>
+
+  <!-- InventoryItemDetail: decrement QOH due to issuance -->
+  <InventoryItemDetail inventoryItemId="INV-MS-001" inventoryItemDetailSeqId="MS-I-1" quantityOnHandDiff="-2" availableToPromiseDiff="0" effectiveDate="2025-11-23 11:22:00.000" itemIssuanceId="ISS-20251123-7001" orderId="ORD-20251123-5001" orderItemSeqId="00001" shipmentId="SHP-20251123-6001" shipGroupSeqId="00001" comments="Issued for order"/>
+  <InventoryItemDetail inventoryItemId="INV-MF-001" inventoryItemDetailSeqId="MF-I-1" quantityOnHandDiff="-1" availableToPromiseDiff="0" effectiveDate="2025-11-23 11:24:00.000" itemIssuanceId="ISS-20251123-7002" orderId="ORD-20251123-5001" orderItemSeqId="00002" shipmentId="SHP-20251123-6001" shipGroupSeqId="00002" comments="Issued for order"/>
+
+  <!-- Shipment booking -->
+  <Shipment shipmentId="SHP-20251123-6001" shipmentTypeEnumId="OUTBOUND" createdByUserLogin="ethan.patel" createdStamp="2025-11-23 11:30:00.000" statusId="SHIPMENT_BOOKED" originFacilityId="FAC-BROADWAY" partyIdFrom="COMPANY" partyIdTo="CUST-2001" primaryOrderId="ORD-20251123-5001" primaryShipGroupSeqId="00001"/>
+  <ShipmentItem shipmentId="SHP-20251123-6001" shipmentItemSeqId="00001" orderId="ORD-20251123-5001" orderItemSeqId="00001" productId="MS-1" quantity="2"/>
+  <ShipmentItem shipmentId="SHP-20251123-6001" shipmentItemSeqId="00002" orderId="ORD-20251123-5001" orderItemSeqId="00002" productId="MF-1" quantity="1"/>
+
+  <ShipmentRouteSegment shipmentId="SHP-20251123-6001" segmentSeqId="001" carrierPartyId="FEDEX" carrierRoleTypeId="CARRIER" shipmentService="GROUND" trackingCode="1ZDEMO20251123XYZ"/>
+
+  <!-- Mark shipment shipped -->
+  <ShipmentStatus shipmentId="SHP-20251123-6001" statusId="SHIPPED" statusDatetime="2025-11-23 12:05:00.000"/>
+
+  <!-- Order item shipped statuses -->
+  <OrderItemStatus orderId="ORD-20251123-5001" orderItemSeqId="00001" statusId="SHIPPED" statusDatetime="2025-11-23 12:05:00.000"/>
+  <OrderItemStatus orderId="ORD-20251123-5001" orderItemSeqId="00002" statusId="SHIPPED" statusDatetime="2025-11-23 12:05:00.000"/>
+
+  <!-- Clear reservations (post-issuance) -->
+  <OrderItemShipGrpInvRes inventoryItemId="INV-MS-001" orderId="ORD-20251123-5001" orderItemSeqId="00001" quantity="0.000000" reserveOrderEnumId="INVRO_FIFO_REC" reservedDatetime="2025-11-23 11:25:00.000" shipGroupSeqId="00001"/>
+  <OrderItemShipGrpInvRes inventoryItemId="INV-MF-001" orderId="ORD-20251123-5001" orderItemSeqId="00002" quantity="0.000000" reserveOrderEnumId="INVRO_FIFO_REC" reservedDatetime="2025-11-23 11:25:00.000" shipGroupSeqId="00002"/>
+
+  <!-- Update inventory items QOH to final values (reflecting -2 and -1 above) -->
+  <InventoryItem inventoryItemId="INV-MS-001" productId="MS-1" facilityId="FAC-BROADWAY" ownerPartyId="EMP-9001" quantityOnHandTotal="118" availableToPromiseTotal="113"/>
+  <InventoryItem inventoryItemId="INV-MF-001" productId="MF-1" facilityId="FAC-BROADWAY" ownerPartyId="EMP-9001" quantityOnHandTotal="79" availableToPromiseTotal="74"/>
+
+  <!-- ProductFacility updates after shipment -->
+  <ProductFacility facilityId="FAC-BROADWAY" productId="MS-1" inventoryItemId="INV-MS-001" lastInventoryCount="118" computedLastInventoryCount="113" minimumStock="5" allowBrokering="N"/>
+  <ProductFacility facilityId="FAC-BROADWAY" productId="MF-1" inventoryItemId="INV-MF-001" lastInventoryCount="79" computedLastInventoryCount="74" minimumStock="5" allowBrokering="N"/>
+
+  <!-- Order completed -->
+  <OrderStatus orderStatusId="ORD-20251123-5001-COMP" orderId="ORD-20251123-5001" statusId="ORDER_COMPLETED" statusUserLogin="ethan.patel" statusDatetime="2025-11-23 12:10:00.000"/>
+  <OrderHeader orderId="ORD-20251123-5001" orderTypeId="SALES_ORDER" statusId="ORDER_COMPLETED" createdBy="ethan.patel" orderDate="2025-11-23 09:30:00.000" entryDate="2025-11-23 09:30:00.000"/>
 
 </entity-engine-xml>
